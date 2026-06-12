@@ -67,35 +67,40 @@ def segment_bbox(band_image: np.ndarray):
     y2 = min(h, y + bh + pad_y)
     return x1, y1, x2, y2
 
-
 def preprocess(hdr_path: str, bil_path: str):
-    """
-    Load hyperspectral cube, segment, extract 8 bands,
-    resize to 224x224, normalize. Returns (1, 8, 224, 224) float32.
-    """
-    img  = spectral.open_image(hdr_path)
-    cube = img.load().astype(np.float32)          # (H, W, 300)
-
-    seg_band        = cube[:, :, SEG_BAND_INDEX]
+    img = spectral.open_image(hdr_path)
+    
+    # Only load the 9 bands we need — saves ~97% memory
+    needed_bands = sorted(set(BAND_INDICES + [SEG_BAND_INDEX]))  
+    # [88, 124, 144, 167, 189, 207, 234, 262] + [234] = 8 unique bands
+    
+    # Load only needed bands
+    partial = img.read_bands(needed_bands)  # shape (500, 900, 9)
+    
+    # Remap indices to new positions in partial array
+    band_map = {b: i for i, b in enumerate(needed_bands)}
+    
+    seg_band = partial[:, :, band_map[SEG_BAND_INDEX]]
     x1, y1, x2, y2 = segment_bbox(seg_band)
-
-    crop = cube[y1:y2, x1:x2, :]                  # (crop_h, crop_w, 300)
-    hsi8 = crop[:, :, BAND_INDICES]               # (crop_h, crop_w, 8)
-
+    
+    crop = partial[y1:y2, x1:x2, :]
+    
+    # Select 8 classifier bands using remapped indices
+    hsi8 = np.stack([crop[:, :, band_map[b]] for b in BAND_INDICES], axis=-1)
+    
     resized = np.zeros((TARGET_SIZE, TARGET_SIZE, 8), dtype=np.float32)
     for i in range(8):
         resized[:, :, i] = cv2.resize(
-            hsi8[:, :, i], (TARGET_SIZE, TARGET_SIZE),
+            hsi8[:, :, i].astype(np.float32),
+            (TARGET_SIZE, TARGET_SIZE),
             interpolation=cv2.INTER_LINEAR
         )
-
-    resized = resized / CLASSIFIER_SCALE           # normalize: raw / 24066.9
-    chw  = np.transpose(resized, (2, 0, 1))        # HWC -> CHW
-    nchw = np.expand_dims(chw, axis=0)             # -> (1, 8, 224, 224)
-
+    
+    resized = resized / CLASSIFIER_SCALE
+    chw  = np.transpose(resized, (2, 0, 1))
+    nchw = np.expand_dims(chw, axis=0)
+    
     return nchw, (x1, y1, x2, y2)
-
-
 # ── Routes ───────────────────────────────────────────────────
 
 @app.get("/")
