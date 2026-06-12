@@ -9,6 +9,15 @@ import os
 import shutil
 
 app = FastAPI(title="HortiVision AI Inference Server")
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # tighten this before go live
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ── Constants from model documentation ──────────────────────
 CLASS_NAMES      = ["muscadine_copper", "muscadine_darkpurple", "muscadine_purple"]
