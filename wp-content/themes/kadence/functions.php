@@ -1,0 +1,40 @@
+<?php
+/**
+ * Kadence functions and definitions
+ *
+ * This file must be parseable by PHP 5.2.
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
+ * @package kadence
+ */
+
+define( 'KADENCE_VERSION', '1.5.0' );
+define( 'KADENCE_MINIMUM_WP_VERSION', '6.0' );
+define( 'KADENCE_MINIMUM_PHP_VERSION', '7.4' );
+
+// Bail if requirements are not met.
+if ( version_compare( $GLOBALS['wp_version'], KADENCE_MINIMUM_WP_VERSION, '<' ) || version_compare( phpversion(), KADENCE_MINIMUM_PHP_VERSION, '<' ) ) {
+	require get_template_directory() . '/inc/back-compat.php';
+	return;
+}
+// Include WordPress shims.
+require get_template_directory() . '/inc/wordpress-shims.php';
+
+// Load the `kadence()` entry point function.
+require get_template_directory() . '/inc/class-theme.php';
+
+// Load the `kadence()` entry point function.
+require get_template_directory() . '/inc/functions.php';
+
+// Initialize the theme.
+call_user_func( 'Kadence\kadence' );
+
+// Log out user immediately after registration and redirect to login
+add_action('user_registration_after_register_user_action', function() {
+    if (is_user_logged_in()) {
+        wp_logout();
+        wp_redirect(home_url('/login'));
+        exit;
+    }
+});

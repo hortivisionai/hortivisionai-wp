@@ -1,0 +1,64 @@
+2026-06-12T20:43:52+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T20:43:52+00:00 DEBUG Email details:
+{
+    "to": "samvadajainm@gmail.com",
+    "subject": "Welcome to HortiVision AI!",
+    "template_id": null
+}
+2026-06-12T20:43:52+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T20:43:52+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T20:43:52+00:00 DEBUG Email details:
+{
+    "to": "hortivisionai@gmail.com",
+    "subject": "A Member registration: samvada ",
+    "template_id": null
+}
+2026-06-12T20:43:52+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T21:02:26+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T21:02:26+00:00 DEBUG Email details:
+{
+    "to": "samvadajain@gmail.com",
+    "subject": "Welcome to HortiVision AI!",
+    "template_id": null
+}
+2026-06-12T21:02:26+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T21:02:26+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T21:02:26+00:00 DEBUG Email details:
+{
+    "to": "hortivisionai@gmail.com",
+    "subject": "A Member registration: samvadaa ",
+    "template_id": null
+}
+2026-06-12T21:02:26+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T21:16:44+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T21:16:44+00:00 DEBUG Email details:
+{
+    "to": "hortivisiona@gmail.com",
+    "subject": "Welcome to HortiVision AI!",
+    "template_id": null
+}
+2026-06-12T21:16:44+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T21:16:44+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T21:16:44+00:00 DEBUG Email details:
+{
+    "to": "hortivisionai@gmail.com",
+    "subject": "A Member registration: samvad ",
+    "template_id": null
+}
+2026-06-12T21:16:44+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T21:24:01+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T21:24:01+00:00 DEBUG Email details:
+{
+    "to": "hortivionai@gmail.com",
+    "subject": "Welcome to HortiVision AI!",
+    "template_id": null
+}
+2026-06-12T21:24:01+00:00 SUCCESS =============== Email send request completed successfully ===============
+2026-06-12T21:24:01+00:00 NOTICE =============== Email Sending Start ================
+2026-06-12T21:24:01+00:00 DEBUG Email details:
+{
+    "to": "hortivisionai@gmail.com",
+    "subject": "A Member registration: adminn ",
+    "template_id": null
+}
+2026-06-12T21:24:01+00:00 SUCCESS =============== Email send request completed successfully ===============
