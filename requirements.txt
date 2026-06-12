@@ -2,5 +2,6 @@ fastapi
 uvicorn
 onnxruntime
 numpy
-Pillow
+spectral
+opencv-python-headless
 python-multipart
