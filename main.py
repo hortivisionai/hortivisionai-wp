@@ -1,5 +1,4 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import FileResponse
 import onnxruntime as ort
 import spectral
 import numpy as np
@@ -7,34 +6,30 @@ import cv2
 import tempfile
 import os
 import shutil
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="HortiVision AI Inference Server")
-from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten this before go live
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ── Constants from model documentation ──────────────────────
+# ── Constants ────────────────────────────────────────────────
 CLASS_NAMES      = ["muscadine_copper", "muscadine_darkpurple", "muscadine_purple"]
 CLASSIFIER_SCALE = 24066.9
 TARGET_SIZE      = 224
+BAND_INDICES     = [88, 124, 144, 167, 189, 207, 234, 262]
+SEG_BAND_INDEX   = 234
 
-# 8 band indices (0-based) selected for classification
-BAND_INDICES = [88, 124, 144, 167, 189, 207, 234, 262]
-
-# Segmentation band (860nm) for adaptive bounding box
-SEG_BAND_INDEX = 234
-
-# ── Load ONNX model once at startup ─────────────────────────
+# ── Load ONNX model ──────────────────────────────────────────
 MODEL_PATH  = "models/mobilevit_rawbil_hsi8.onnx"
 session     = ort.InferenceSession(MODEL_PATH)
-input_name  = session.get_inputs()[0].name    # "hsi8_input"
-output_name = session.get_outputs()[0].name   # "logits"
+input_name  = session.get_inputs()[0].name
+output_name = session.get_outputs()[0].name
 
 print(f"Model loaded: {MODEL_PATH}")
 print(f"Input : {input_name} {session.get_inputs()[0].shape}")
@@ -47,12 +42,7 @@ def softmax_fn(logits: np.ndarray) -> np.ndarray:
 
 
 def segment_bbox(band_image: np.ndarray):
-    """
-    Adaptive HSI segmentation using the 860nm band.
-    Returns (x1, y1, x2, y2) with padding.
-    Falls back to full image if segmentation fails.
-    """
-    h, w = band_image.shape
+    h, w    = band_image.shape
     norm    = cv2.normalize(band_image, None, 0, 255, cv2.NORM_MINMAX)
     gray    = norm.astype(np.uint8)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -76,48 +66,56 @@ def segment_bbox(band_image: np.ndarray):
     y2 = min(h, y + bh + pad_y)
     return x1, y1, x2, y2
 
+
 def preprocess(hdr_path: str, bil_path: str):
-    img = spectral.open_image(hdr_path)
-    
-    # Only load the 9 bands we need — saves ~97% memory
-    needed_bands = sorted(set(BAND_INDICES + [SEG_BAND_INDEX]))  
-    # [88, 124, 144, 167, 189, 207, 234, 262] + [234] = 8 unique bands
-    
-    # Load only needed bands
-    partial = img.read_bands(needed_bands)  # shape (500, 900, 9)
-    
-    # Remap indices to new positions in partial array
-    band_map = {b: i for i, b in enumerate(needed_bands)}
-    
-    seg_band = partial[:, :, band_map[SEG_BAND_INDEX]]
+    """
+    Load full 300-band hyperspectral cube.
+    Segment using 860nm band, crop, extract 8 classifier bands,
+    resize to 224x224, normalize.
+    Returns (1, 8, 224, 224) float32 and bbox tuple.
+    """
+    img  = spectral.open_image(hdr_path)
+
+    # Load ALL 300 bands — full fidelity segmentation
+    cube = img.load().astype(np.float32)   # (500, 900, 300)
+
+    # Segment using full 860nm band for best accuracy
+    seg_band        = cube[:, :, SEG_BAND_INDEX]
     x1, y1, x2, y2 = segment_bbox(seg_band)
-    
-    crop = partial[y1:y2, x1:x2, :]
-    
-    # Select 8 classifier bands using remapped indices
-    hsi8 = np.stack([crop[:, :, band_map[b]] for b in BAND_INDICES], axis=-1)
-    
+
+    # Crop the full cube to the bounding box
+    crop = cube[y1:y2, x1:x2, :]          # (crop_h, crop_w, 300)
+
+    # Extract the 8 classifier bands from the cropped cube
+    hsi8 = crop[:, :, BAND_INDICES]       # (crop_h, crop_w, 8)
+
+    # Resize each band to 224x224
     resized = np.zeros((TARGET_SIZE, TARGET_SIZE, 8), dtype=np.float32)
     for i in range(8):
         resized[:, :, i] = cv2.resize(
-            hsi8[:, :, i].astype(np.float32),
+            hsi8[:, :, i],
             (TARGET_SIZE, TARGET_SIZE),
             interpolation=cv2.INTER_LINEAR
         )
-    
+
+    # Normalize: raw / 24066.9
     resized = resized / CLASSIFIER_SCALE
+
+    # HWC → CHW → NCHW
     chw  = np.transpose(resized, (2, 0, 1))
-    nchw = np.expand_dims(chw, axis=0)
-    
+    nchw = np.expand_dims(chw, axis=0)    # (1, 8, 224, 224)
+
     return nchw, (x1, y1, x2, y2)
+
+
 # ── Routes ───────────────────────────────────────────────────
 
 @app.get("/")
 def root():
     return {
-        "status"  : "HortiVision AI inference server running",
-        "model"   : "MobileViT HSI8 — Muscadine Grape Classifier",
-        "classes" : CLASS_NAMES
+        "status" : "HortiVision AI inference server running",
+        "model"  : "MobileViT HSI8 — Muscadine Grape Classifier",
+        "classes": CLASS_NAMES
     }
 
 
