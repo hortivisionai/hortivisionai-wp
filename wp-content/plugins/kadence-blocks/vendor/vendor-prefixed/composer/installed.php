@@ -2,9 +2,9 @@
   'root' => 
   array (
     'name' => 'kadencewp/kadence-blocks',
-    'pretty_version' => '3.7.5',
-    'version' => '3.7.5.0',
-    'reference' => '1a96d85c4a99adfed8ccc1125db25293c3b4cae4',
+    'pretty_version' => '3.7.6',
+    'version' => '3.7.6.0',
+    'reference' => '067aa8a11a3f299904836876857404f032b7f489',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 

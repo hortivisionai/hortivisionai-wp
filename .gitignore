@@ -1,0 +1,43 @@
+# WordPress core files
+wp-admin/
+wp-includes/
+wp-*.php
+xmlrpc.php
+index.php
+license.txt
+readme.html
+
+# Config file — contains DB credentials, never commit
+wp-config.php
+
+# Uploads — user files, too large for git
+wp-content/uploads/
+
+# Cache and logs
+wp-content/cache/
+wp-content/uploads/ur-logs/
+*.log
+
+# Plugins and themes — only if you're not tracking them in git
+# Comment these out if you DO want to version control your custom plugin/theme
+wp-content/plugins/*
+!wp-content/plugins/hortivision-upload/
+
+wp-content/themes/*
+!wp-content/themes/kadence/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Environment files
+.env
+.env.local
+
+# Node modules (if you use any build tools)
+node_modules/
