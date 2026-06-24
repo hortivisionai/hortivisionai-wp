@@ -55,3 +55,17 @@ Thumbs.db
 # SASS #
 ##########
 .sass-cache
+
+# Exclude default WordPress themes
+wp-content/themes/twenty*/
+
+# Keep only our custom theme
+!wp-content/themes/kadence/
+
+# Exclude Python inference files
+main.py
+requirements.txt
+models/
+
+# DB credentials
+wp-config-local.php
