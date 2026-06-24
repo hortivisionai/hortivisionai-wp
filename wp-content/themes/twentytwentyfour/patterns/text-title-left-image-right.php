@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/text-title-left-image-right
  * Categories: banner, about, featured
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A title, a paragraph and a CTA button on the left with an image on the right.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

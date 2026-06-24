@@ -4,7 +4,10 @@
  * Slug: twentytwentythree/footer-default
  * Categories: footer
  * Block Types: core/template-part/footer
+<<<<<<< HEAD
  * Description: Footer with site title and powered by WordPress.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 <!-- wp:group {"layout":{"type":"constrained"}} -->

@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/text-alternating-images
  * Categories: text, about
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A text section, then a two-column section with text in one column and an image in the other.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

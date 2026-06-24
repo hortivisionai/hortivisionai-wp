@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Text blog single post
+=======
+ * Title: Text-only blog, single post
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Slug: twentytwentyfive/template-single-text-blog
  * Template Types: posts, single
  * Viewport width: 1400

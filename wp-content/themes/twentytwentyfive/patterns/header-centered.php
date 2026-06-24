@@ -1,10 +1,18 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Centered site header
  * Slug: twentytwentyfive/header-centered
  * Categories: header
  * Block Types: core/template-part/header
  * Description: Site header with centered site title and navigation.
+=======
+ * Title: Centered header
+ * Slug: twentytwentyfive/header-centered
+ * Categories: header
+ * Block Types: core/template-part/header
+ * Description: Header with centered site title and navigation.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_Five

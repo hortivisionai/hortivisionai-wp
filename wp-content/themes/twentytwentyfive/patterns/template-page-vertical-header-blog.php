@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Right-aligned page
+=======
+ * Title: Page template for the right-aligned blog
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Slug: twentytwentyfive/template-page-vertical-header-blog
  * Template Types: page
  * Viewport width: 1400

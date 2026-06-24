@@ -1,5 +1,6 @@
 jQuery( function ( $ ) {
 	var mshotRemovalTimer = null;
+<<<<<<< HEAD
 	var mshotRetryTimer = null;
 	var mshotTries = 0;
 	var mshotRetryInterval = 1000;
@@ -7,6 +8,22 @@ jQuery( function ( $ ) {
 
 	var preloadedMshotURLs = [];
 
+=======
+	var mshotSecondTryTimer = null
+	var mshotThirdTryTimer = null
+	
+	$( 'a.activate-option' ).click( function(){
+		var link = $( this );
+		if ( link.hasClass( 'clicked' ) ) {
+			link.removeClass( 'clicked' );
+		}
+		else {
+			link.addClass( 'clicked' );
+		}
+		$( '.toggle-have-key' ).slideToggle( 'slow', function() {});
+		return false;
+	});
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	$('.akismet-status').each(function () {
 		var thisId = $(this).attr('commentid');
 		$(this).prependTo('#comment-' + thisId + ' .column-comment');
@@ -15,10 +32,30 @@ jQuery( function ( $ ) {
 		var thisId = $(this).attr('commentid');
 		$(this).insertAfter('#comment-' + thisId + ' .author strong:first').show();
 	});
+<<<<<<< HEAD
 
 	akismet_enable_comment_author_url_removal();
 	
 	$( '#the-comment-list' ).on( 'click', '.akismet_remove_url', function () {
+=======
+	$('#the-comment-list').find('tr.comment, tr[id ^= "comment-"]').find('.column-author a[title]').each(function () {
+		// Comment author URLs are the only URL with a title attribute in the author column.
+		var thisTitle = $(this).attr('title');
+
+		var thisCommentId = $(this).parents('tr:first').attr('id').split("-");
+
+		$(this).attr("id", "author_comment_url_"+ thisCommentId[1]);
+
+		if (thisTitle) {
+			$(this).after(
+				$( '<a href="#" class="remove_url">x</a>' )
+					.attr( 'commentid', thisCommentId[1] )
+					.attr( 'title', WPAkismet.strings['Remove this URL'] )
+			);
+		}
+	});
+	$('.remove_url').live('click', function () {
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		var thisId = $(this).attr('commentid');
 		var data = {
 			action: 'comment_author_deurl',
@@ -55,7 +92,12 @@ jQuery( function ( $ ) {
 		});
 
 		return false;
+<<<<<<< HEAD
 	}).on( 'click', '.akismet_undo_link_removal', function () {
+=======
+	});
+	$('.akismet_undo_link_removal').live('click', function () {
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		var thisId = $(this).attr('cid');
 		var thisUrl = $(this).attr('href');
 		var data = {
@@ -86,6 +128,7 @@ jQuery( function ( $ ) {
 	});
 
 	// Show a preview image of the hovered URL. Applies to author URLs and URLs inside the comments.
+<<<<<<< HEAD
 	if ( "enable_mshots" in WPAkismet && WPAkismet.enable_mshots ) {
 		$( '#the-comment-list' ).on( 'mouseover', mshotEnabledLinkSelector, function () {
 			clearTimeout( mshotRemovalTimer );
@@ -250,11 +293,69 @@ jQuery( function ( $ ) {
 		// Update the progress counter on the "Check for Spam" button.
 		$( '.checkforspam' ).text( check_for_spam_buttons.data( 'progress-label' ).replace( '%1$s', percentage_complete ) );
 
+=======
+	$( 'a[id^="author_comment_url"], tr.pingback td.column-author a:first-of-type, table.comments td.comment p a' ).mouseover( function () {
+		clearTimeout( mshotRemovalTimer );
+
+		if ( $( '.akismet-mshot' ).length > 0 ) {
+			if ( $( '.akismet-mshot:first' ).data( 'link' ) == this ) {
+				// The preview is already showing for this link.
+				return;
+			}
+			else {
+				// A new link is being hovered, so remove the old preview.
+				$( '.akismet-mshot' ).remove();
+			}
+		}
+
+		clearTimeout( mshotSecondTryTimer );
+		clearTimeout( mshotThirdTryTimer );
+
+		var thisHref = $.URLEncode( $( this ).attr( 'href' ) );
+
+		var mShot = $( '<div class="akismet-mshot mshot-container"><div class="mshot-arrow"></div><img src="//s0.wordpress.com/mshots/v1/' + thisHref + '?w=450" width="450" height="338" class="mshot-image" /></div>' );
+		mShot.data( 'link', this );
+
+		var offset = $( this ).offset();
+
+		mShot.offset( {
+			left : Math.min( $( window ).width() - 475, offset.left + $( this ).width() + 10 ), // Keep it on the screen if the link is near the edge of the window.
+			top: offset.top + ( $( this ).height() / 2 ) - 101 // 101 = top offset of the arrow plus the top border thickness
+		} );
+
+		mshotSecondTryTimer = setTimeout( function () {
+			mShot.find( '.mshot-image' ).attr( 'src', '//s0.wordpress.com/mshots/v1/'+thisHref+'?w=450&r=2' );
+		}, 6000 );
+
+		mshotThirdTryTimer = setTimeout( function () {
+			mShot.find( '.mshot-image' ).attr( 'src', '//s0.wordpress.com/mshots/v1/'+thisHref+'?w=450&r=3' );
+		}, 12000 );
+
+		$( 'body' ).append( mShot );
+	} ).mouseout( function () {
+		mshotRemovalTimer = setTimeout( function () {
+			clearTimeout( mshotSecondTryTimer );
+			clearTimeout( mshotThirdTryTimer );
+
+			$( '.akismet-mshot' ).remove();
+		}, 200 );
+	} );
+
+	$('.checkforspam:not(.button-disabled)').click( function(e) {
+		$('.checkforspam:not(.button-disabled)').addClass('button-disabled');
+		$('.checkforspam-spinner').addClass( 'spinner' );
+		akismet_check_for_spam(0, 100);
+		e.preventDefault();
+	});
+
+	function akismet_check_for_spam(offset, limit) {
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		$.post(
 			ajaxurl,
 			{
 				'action': 'akismet_recheck_queue',
 				'offset': offset,
+<<<<<<< HEAD
 				'limit': limit,
 				'nonce': nonce
 			},
@@ -274,10 +375,21 @@ jQuery( function ( $ ) {
 				else {
 					// Account for comments that were caught as spam and moved out of the queue.
 					akismet_check_for_spam(offset + limit - result.counts.spam, limit);
+=======
+				'limit': limit
+			},
+			function(result) {
+				if (result.processed < limit) {
+					window.location.reload();
+				}
+				else {
+					akismet_check_for_spam(offset + limit, limit);
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 				}
 			}
 		);
 	}
+<<<<<<< HEAD
 	
 	if ( "start_recheck" in WPAkismet && WPAkismet.start_recheck ) {
 		$( '.checkforspam:first' ).click();
@@ -394,4 +506,13 @@ jQuery( function ( $ ) {
 
 		$( this ).hide();
 	} );
+=======
+});
+// URL encode plugin
+jQuery.extend({URLEncode:function(c){var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
+  while(x<c.length){var m=r.exec(c.substr(x));
+    if(m!=null && m.length>1 && m[1]!=''){o+=m[1];x+=m[1].length;
+    }else{if(c[x]==' ')o+='+';else{var d=c.charCodeAt(x);var h=d.toString(16);
+    o+='%'+(h.length<2?'0':'')+h.toUpperCase();}x++;}}return o;}
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 });

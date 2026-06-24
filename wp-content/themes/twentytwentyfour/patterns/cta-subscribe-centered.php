@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/cta-subscribe-centered
  * Categories: call-to-action
  * Keywords: newsletter, subscribe, button
+<<<<<<< HEAD
  * Description: Subscribers CTA section with a title, a paragraph and a CTA button.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

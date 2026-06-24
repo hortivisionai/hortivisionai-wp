@@ -9,6 +9,10 @@
  * @since Twenty Twenty-Five 1.0
  */
 
+<<<<<<< HEAD
+=======
+// Adds theme support for post formats.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
 	/**
 	 * Adds theme support for post formats.
@@ -23,6 +27,10 @@ if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'twentytwentyfive_post_format_setup' );
 
+<<<<<<< HEAD
+=======
+// Enqueues editor-style.css in the editors.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 if ( ! function_exists( 'twentytwentyfive_editor_style' ) ) :
 	/**
 	 * Enqueues editor-style.css in the editors.
@@ -32,20 +40,32 @@ if ( ! function_exists( 'twentytwentyfive_editor_style' ) ) :
 	 * @return void
 	 */
 	function twentytwentyfive_editor_style() {
+<<<<<<< HEAD
 		add_editor_style( 'assets/css/editor-style.css' );
+=======
+		add_editor_style( get_parent_theme_file_uri( 'assets/css/editor-style.css' ) );
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	}
 endif;
 add_action( 'after_setup_theme', 'twentytwentyfive_editor_style' );
 
+<<<<<<< HEAD
 if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
 	/**
 	 * Enqueues the theme stylesheet on the front.
+=======
+// Enqueues style.css on the front.
+if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
+	/**
+	 * Enqueues style.css on the front.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	 *
 	 * @since Twenty Twenty-Five 1.0
 	 *
 	 * @return void
 	 */
 	function twentytwentyfive_enqueue_styles() {
+<<<<<<< HEAD
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 		$src    = 'style' . $suffix . '.css';
 
@@ -60,10 +80,22 @@ if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
 			'path',
 			get_parent_theme_file_path( $src )
 		);
+=======
+		wp_enqueue_style(
+			'twentytwentyfive-style',
+			get_parent_theme_file_uri( 'style.css' ),
+			array(),
+			wp_get_theme()->get( 'Version' )
+		);
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	}
 endif;
 add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles' );
 
+<<<<<<< HEAD
+=======
+// Registers custom block styles.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
 	/**
 	 * Registers custom block styles.
@@ -92,6 +124,10 @@ if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
 endif;
 add_action( 'init', 'twentytwentyfive_block_styles' );
 
+<<<<<<< HEAD
+=======
+// Registers pattern categories.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
 	/**
 	 * Registers pattern categories.
@@ -121,6 +157,10 @@ if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
 endif;
 add_action( 'init', 'twentytwentyfive_pattern_categories' );
 
+<<<<<<< HEAD
+=======
+// Registers block binding sources.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
 	/**
 	 * Registers the post format block binding source.
@@ -141,6 +181,10 @@ if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
 endif;
 add_action( 'init', 'twentytwentyfive_register_block_bindings' );
 
+<<<<<<< HEAD
+=======
+// Registers block binding callback function for the post format name.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 	/**
 	 * Callback function for the post format name block binding source.

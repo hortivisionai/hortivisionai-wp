@@ -5,7 +5,10 @@
  * Categories: query
  * Keywords: post meta
  * Block Types: core/template-part/post-meta
+<<<<<<< HEAD
  * Description: Post meta information with separator on the top.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 <!-- wp:spacer {"height":"0"} -->

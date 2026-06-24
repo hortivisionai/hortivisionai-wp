@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 //phpcs:disable VariableAnalysis
@@ -30,3 +31,11 @@ $url = add_query_arg( $query_args, 'https://akismet.com/get/' );
 	<?php echo esc_html( is_string( $text ) ? $text : '' ); ?>
 	<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'akismet' ); ?></span>
 </a>
+=======
+<form name="akismet_activate" action="https://akismet.com/get/" method="POST" target="_blank">
+	<input type="hidden" name="passback_url" value="<?php echo esc_url( Akismet_Admin::get_page_url() ); ?>"/>
+	<input type="hidden" name="blog" value="<?php echo esc_url( get_bloginfo('url') ); ?>"/>
+	<input type="hidden" name="redirect" value="<?php echo isset( $redirect ) ? $redirect : 'plugin-signup'; ?>"/>
+	<input type="submit" class="<?php echo isset( $classes ) && count( $classes ) > 0 ? implode( ' ', $classes ) : 'button button-primary';?>" value="<?php echo esc_attr( $text ); ?>"/>
+</form>
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94

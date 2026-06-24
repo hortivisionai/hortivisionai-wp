@@ -13,7 +13,11 @@ function akismet_test_mode() {
 function akismet_http_post( $request, $host, $path, $port = 80, $ip = null ) {
 	$path = str_replace( '/1.1/', '', $path );
 
+<<<<<<< HEAD
 	return Akismet::http_post( $request, $path, $ip );
+=======
+	return Akismet::http_post( $request, $path, $ip ); 
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 }
 
 function akismet_microtime() {
@@ -24,11 +28,16 @@ function akismet_delete_old() {
 	return Akismet::delete_old_comments();
 }
 
+<<<<<<< HEAD
 function akismet_delete_old_metadata() {
+=======
+function akismet_delete_old_metadata() { 
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	return Akismet::delete_old_comments_meta();
 }
 
 function akismet_check_db_comment( $id, $recheck_reason = 'recheck_queue' ) {
+<<<<<<< HEAD
 	return Akismet::check_db_comment( $id, $recheck_reason );
 }
 
@@ -38,6 +47,16 @@ function akismet_rightnow() {
 	}
 
 	return Akismet_Admin::rightnow_stats();
+=======
+   	return Akismet::check_db_comment( $id, $recheck_reason );
+}
+
+function akismet_rightnow() {
+	if ( !class_exists( 'Akismet_Admin' ) )
+		return false;
+   
+   	return Akismet_Admin::rightnow_stats();
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 }
 
 function akismet_admin_init() {
@@ -176,7 +195,11 @@ function akismet_get_ip_address() {
 function akismet_cron_recheck() {
 	return Akismet::cron_recheck();
 }
+<<<<<<< HEAD
 function akismet_add_comment_nonce( $post_id ) {
+=======
+function akismet_add_comment_nonce() {
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	return Akismet::add_comment_nonce( $post_id );
 }
 function akismet_fix_scheduled_recheck() {
@@ -207,9 +230,17 @@ function akismet_kill_proxy_check( $option ) {
 	return 0;
 }
 function akismet_pingback_forwarded_for( $r, $url ) {
+<<<<<<< HEAD
 	// This functionality is now in core.
 	return false;
 }
 function akismet_pre_check_pingback( $method ) {
 	return Akismet::pre_check_pingback( $method );
 }
+=======
+	return Akismet::pingback_forwarded_for( $r, $url );
+}
+function akismet_pre_check_pingback( $method ) {
+	return Akismet::pre_check_pingback( $method );
+}
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94

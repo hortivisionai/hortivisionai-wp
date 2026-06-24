@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/posts-1-col
  * Categories: query
  * Block Types: core/query
+<<<<<<< HEAD
  * Description: A list of posts, 1 column.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

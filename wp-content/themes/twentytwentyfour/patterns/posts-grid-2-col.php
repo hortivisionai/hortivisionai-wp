@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/posts-grid-2-col
  * Categories: query
  * Block Types: core/query
+<<<<<<< HEAD
  * Description: A grid of posts featuring the first post, 2 columns.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

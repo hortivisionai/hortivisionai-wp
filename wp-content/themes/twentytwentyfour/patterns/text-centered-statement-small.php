@@ -5,7 +5,10 @@
  * Categories: text, about
  * Keywords: mission, introduction
  * Viewport width: 1200
+<<<<<<< HEAD
  * Description: A centered italic text statement with compact padding.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

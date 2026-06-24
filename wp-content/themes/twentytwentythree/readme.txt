@@ -1,9 +1,15 @@
 === Twenty Twenty-Three ===
 Contributors: wordpressdotorg
 Requires at least: 6.1
+<<<<<<< HEAD
 Tested up to: 7.0
 Requires PHP: 5.6
 Stable tag: 1.6
+=======
+Tested up to: 6.1
+Requires PHP: 5.6
+Stable tag: 1.0
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +21,7 @@ Whether you want to build a complex or incredibly simple website, you can do it 
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 1.6 =
 * Released: November 12, 2024
 
@@ -53,6 +60,16 @@ https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Versi
 == Copyright ==
 
 Twenty Twenty-Three WordPress Theme, (C) 2022-2026 WordPress.org and contributors.
+=======
+= 1.0 =
+* Released: November 1, 2022
+
+https://wordpress.org/support/article/twenty-twenty-three-changelog#Version_1.0
+
+== Copyright ==
+
+Twenty Twenty-Three WordPress Theme, (C) 2022-2023 WordPress.org
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 Twenty Twenty-Three is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -64,6 +81,7 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
+<<<<<<< HEAD
 
 
 This theme bundles the following third-party resources:
@@ -89,3 +107,5 @@ Source Serif Font
 Copyright 2014-2021 Adobe (http://www.adobe.com/)
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
 Source: https://github.com/adobe-fonts/source-serif
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94

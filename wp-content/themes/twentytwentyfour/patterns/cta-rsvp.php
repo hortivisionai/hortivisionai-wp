@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/cta-rsvp
  * Categories: call-to-action, featured
  * Viewport width: 1100
+<<<<<<< HEAD
  * Description: A large RSVP heading sideways, a description, and a CTA button.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

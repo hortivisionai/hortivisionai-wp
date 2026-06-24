@@ -1,9 +1,15 @@
 === Twenty Twenty-Four ===
 Contributors: wordpressdotorg
 Requires at least: 6.4
+<<<<<<< HEAD
 Tested up to: 7.0
 Requires PHP: 7.0
 Stable tag: 1.5
+=======
+Tested up to: 6.4
+Requires PHP: 7.0
+Stable tag: 1.0
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +19,7 @@ Twenty Twenty-Four is designed to be flexible, versatile and applicable to any w
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 1.5 =
 * Released: May 20, 2026
 
@@ -38,6 +45,8 @@ https://wordpress.org/documentation/article/twenty-twenty-four-changelog/#Versio
 
 https://wordpress.org/documentation/article/twenty-twenty-four-changelog/#Version_1.1
 
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 = 1.0 =
 * Released: November 7, 2023
 
@@ -45,7 +54,11 @@ https://wordpress.org/documentation/article/twenty-twenty-four-changelog/#Versio
 
 == Copyright ==
 
+<<<<<<< HEAD
 Twenty Twenty-Four WordPress Theme, (C) 2023-2026 WordPress.org and contributors.
+=======
+Twenty Twenty-Four WordPress Theme, (C) 2023 WordPress.org
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 Twenty Twenty-Four is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -58,6 +71,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
+<<<<<<< HEAD
 
 This theme bundles the following third-party resources:
 
@@ -85,6 +99,9 @@ Source: https://github.com/indestructible-type/Jost
 
 === Images ===
 
+=======
+=== Images ===
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 
 museum.webp - https://www.rawpixel.com/image/3297419/free-photo-image-interior-hallway-architecture

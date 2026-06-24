@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/footer
  * Categories: footer
  * Block Types: core/template-part/footer
+<<<<<<< HEAD
  * Description: A footer section with a colophon and 4 columns.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 
@@ -46,9 +49,15 @@
 
 						<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|10"}},"fontSize":"small","ariaLabel":"<?php esc_attr_e( 'About', 'twentytwentyfour' ); ?>"} -->
 
+<<<<<<< HEAD
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Team', 'twentytwentyfour' ); ?>","url":"#"} /-->
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'History', 'twentytwentyfour' ); ?>","url":"#"} /-->
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Careers', 'twentytwentyfour' ); ?>","url":"#"} /-->
+=======
+						<!-- wp:navigation-link {"label":"Team","url":"#"} /-->
+						<!-- wp:navigation-link {"label":"History","url":"#"} /-->
+						<!-- wp:navigation-link {"label":"Careers","url":"#"} /-->
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 
 						<!-- /wp:navigation -->
 
@@ -69,9 +78,15 @@
 
 						<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|10"}},"fontSize":"small","ariaLabel":"<?php esc_attr_e( 'Privacy', 'twentytwentyfour' ); ?>"} -->
 
+<<<<<<< HEAD
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Privacy Policy', 'twentytwentyfour' ); ?>","url":"#"} /-->
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Terms and Conditions', 'twentytwentyfour' ); ?>","url":"#"} /-->
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Contact Us', 'twentytwentyfour' ); ?>","url":"#"} /-->
+=======
+						<!-- wp:navigation-link {"label":"Privacy Policy","url":"#"} /-->
+						<!-- wp:navigation-link {"label":"Terms and Conditions","url":"#"} /-->
+						<!-- wp:navigation-link {"label":"Contact Us","url":"#"} /-->
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 
 						<!-- /wp:navigation -->
 
@@ -91,9 +106,15 @@
 
 						<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"style":{"typography":{"fontStyle":"normal","fontWeight":"400"},"spacing":{"blockGap":"var:preset|spacing|10"}},"fontSize":"small","ariaLabel":"<?php esc_attr_e( 'Social Media', 'twentytwentyfour' ); ?>"} -->
 
+<<<<<<< HEAD
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Facebook', 'twentytwentyfour' ); ?>","url":"#"} /-->
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Instagram', 'twentytwentyfour' ); ?>","url":"#"} /-->
 						<!-- wp:navigation-link {"label":"<?php esc_html_e( 'Twitter/X', 'twentytwentyfour' ); ?>","url":"#"} /-->
+=======
+						<!-- wp:navigation-link {"label":"Facebook","url":"#"} /-->
+						<!-- wp:navigation-link {"label":"Instagram","url":"#"} /-->
+						<!-- wp:navigation-link {"label":"Twitter/X","url":"#"} /-->
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 
 						<!-- /wp:navigation -->
 

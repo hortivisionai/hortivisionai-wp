@@ -5,7 +5,10 @@
  * Categories: featured
  * Keywords: Call to action
  * Block Types: core/buttons
+<<<<<<< HEAD
  * Description: Left-aligned text with a CTA button and a separator.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 <!-- wp:columns {"align":"wide"} -->
@@ -33,8 +36,13 @@
 
 	<!-- wp:column -->
 	<div class="wp-block-column">
+<<<<<<< HEAD
 		<!-- wp:separator {"className":"is-style-wide"} -->
 		<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+=======
+		<!-- wp:separator -->
+		<hr class="wp-block-separator has-alpha-channel-opacity"/>
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		<!-- /wp:separator -->
 	</div>
 	<!-- /wp:column -->

@@ -2,12 +2,19 @@
 /**
  * Title: RSVP landing
  * Slug: twentytwentyfour/page-rsvp-landing
+<<<<<<< HEAD
  * Categories: twentytwentyfour_page
+=======
+ * Categories: page
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Keywords: starter
  * Block Types: core/post-content
  * Post Types: page, wp_template
  * Viewport width: 1100
+<<<<<<< HEAD
  * Description: A large RSVP heading sideways, a description, and a CTA button.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

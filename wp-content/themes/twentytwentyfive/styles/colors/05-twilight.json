@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+=======
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	"version": 3,
 	"title": "Twilight",
 	"settings": {

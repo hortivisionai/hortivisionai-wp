@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/cta-pricing
  * Categories: call-to-action, services
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A pricing section with a title, a paragraph and three pricing levels.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

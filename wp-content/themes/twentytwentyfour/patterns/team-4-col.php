@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/team-4-col
  * Categories: team, about
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A team section, with a heading, a paragraph, and 4 columns for team members.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

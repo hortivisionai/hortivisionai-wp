@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/footer-centered-logo-nav
  * Categories: footer
  * Block Types: core/template-part/footer
+<<<<<<< HEAD
  * Description: A footer section with a centered logo, navigation, and WordPress credits.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

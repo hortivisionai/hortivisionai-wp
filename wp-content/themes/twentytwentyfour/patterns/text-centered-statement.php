@@ -5,7 +5,10 @@
  * Categories: text, about, featured
  * Keywords: mission, introduction
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A centered text statement with a large amount of padding on all sides.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

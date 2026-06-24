@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+=======
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	"version": 2,
 	"customTemplates": [
 		{
@@ -278,7 +282,11 @@
 				},
 				{
 					"fluid": {
+<<<<<<< HEAD
 						"min": "6.1rem",
+=======
+						"min": "4rem",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 						"max": "10rem"
 					},
 					"size": "10rem",
@@ -539,11 +547,15 @@
 			},
 			"core/quote": {
 				"border": {
+<<<<<<< HEAD
 					"left": {
 						"color": "inherit",
 						"style": "solid",
 						"width": "1px"
 					}
+=======
+					"width": "1px"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 				},
 				"elements": {
 					"cite": {
@@ -591,9 +603,12 @@
 					"fontWeight": "normal",
 					"lineHeight": "1.4"
 				}
+<<<<<<< HEAD
 			},
 			"core/separator": {
 				"css": " &:not(.is-style-wide):not(.is-style-dots):not(.alignwide):not(.alignfull){width: 100px}"
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 			}
 		},
 		"color": {
@@ -730,7 +745,11 @@
 		{
 			"area": "uncategorized",
 			"name": "comments",
+<<<<<<< HEAD
 			"title": "Comments Template Part"
+=======
+			"title": "Comments"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		},
 		{
 			"area": "uncategorized",

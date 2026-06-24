@@ -1,35 +1,57 @@
-# DB credentials — never commit
-wp-config.php
-
-# User uploaded files — too large for git
-
-wp-content/uploads/
-
-# Cache and logs
-wp-content/cache/
-
+# WordPress #
+############
+wp-config-local.php
+wp-cli.local.yml
+wp-content/uploads
+wp-content/blogs.dir/
 wp-content/upgrade/
+wp-content/backup-db/
+wp-content/updraft/
+wp-content/backupwordpress-*/
+wp-content/managewp/backups/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+sitemap.xml
+sitemap.xml.gz
+
+# @TODO writable paths
+wp-content/cache/
+wp-content/backups/
+
+# Avoid accidental modification of pantheon.upstream.yml in sites
+# created from this upstream
+pantheon.upstream.yml
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.bz2
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.tgz
+!wp-includes/**/*.gz
+
+# Logs and databases #
+######################
 *.log
+*.sql
 
-# Keep custom plugin and theme, ignore everything else in plugins/themes
-wp-content/plugins/*
-!wp-content/plugins/farmer-dashboard/
-
-wp-content/themes/*
-!wp-content/themes/kadence/
-
-# OS files
-.DS_Store
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
 Thumbs.db
+._*
 
-# Editor files
-.vscode/
-.idea/
-*.swp
+# Vim generated files #
+######################
+*.un~
 
-# Environment files
-.env
-.env.local
-
-# Node modules
-node_modules/
+# SASS #
+##########
+.sass-cache

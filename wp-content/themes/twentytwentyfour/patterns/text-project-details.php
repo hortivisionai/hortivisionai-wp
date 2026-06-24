@@ -4,7 +4,10 @@
  * Slug: twentytwentyfour/text-project-details
  * Categories: text, portfolio
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A text-only section for project details.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

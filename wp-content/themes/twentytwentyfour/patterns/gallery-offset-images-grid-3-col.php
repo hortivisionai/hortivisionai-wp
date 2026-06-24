@@ -5,7 +5,10 @@
  * Categories: gallery, portfolio
  * Keywords: project, images, media, masonry, columns
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A gallery section with 3 columns and offset images.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 <!-- wp:group {"metadata":{"name":"Portfolio Images"},"align":"full","style":{"spacing":{"padding":{"right":"var:preset|spacing|50","left":"var:preset|spacing|50","top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->

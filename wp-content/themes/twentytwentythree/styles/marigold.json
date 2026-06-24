@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+=======
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	"version": 2,
 	"title": "Marigold",
 	"settings": {
@@ -153,6 +157,10 @@
 				"elements": {
 					"link": {
 						"typography": {
+<<<<<<< HEAD
+=======
+							"fontSize": "var(--wp--preset--font-size--large)",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 							"textDecoration": "none"
 						},
 						"color": {
@@ -167,7 +175,10 @@
 					}
 				},
 				"typography": {
+<<<<<<< HEAD
 					"fontSize": "var(--wp--preset--font-size--large)",
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					"fontWeight": "600"
 				}
 			},
@@ -203,8 +214,19 @@
 				}
 			},
 			"core/site-title": {
+<<<<<<< HEAD
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--normal)",
+=======
+				"elements": {
+					"link": {
+						"typography": {
+							"fontSize": "var(--wp--preset--font-size--normal)"
+						}
+					}
+				},
+				"typography": {
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					"textTransform": "lowercase"
 				}
 			}

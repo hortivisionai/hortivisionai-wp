@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+=======
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	"version": 2,
 	"title": "Block out",
 	"settings": {
@@ -76,7 +80,11 @@
 				{
 					"fluid": {
 						"max": "7rem",
+<<<<<<< HEAD
 						"min": "4.3rem"
+=======
+						"min": "4rem"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					},
 					"size": "7rem",
 					"slug": "xx-large"

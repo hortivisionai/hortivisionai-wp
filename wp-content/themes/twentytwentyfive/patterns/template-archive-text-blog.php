@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Text blog archive
+=======
+ * Title: Text-only blog, archive
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Slug: twentytwentyfive/template-archive-text-blog
  * Template Types: archive
  * Viewport width: 1400

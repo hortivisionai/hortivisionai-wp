@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Text blog query loop
+=======
+ * Title: Text-only blog, posts
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Slug: twentytwentyfive/template-query-loop-text-blog
  * Inserter: no
  *

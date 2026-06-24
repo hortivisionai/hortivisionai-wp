@@ -1,9 +1,15 @@
 === Twenty Twenty-Five ===
 Contributors: wordpressdotorg
 Requires at least: 6.7
+<<<<<<< HEAD
 Tested up to: 7.0
 Requires PHP: 7.2
 Stable tag: 1.5
+=======
+Tested up to: 6.7
+Requires PHP: 7.2
+Stable tag: 1.0
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +20,7 @@ Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible de
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 1.5 =
 * Released: May 20, 2026
 
@@ -47,6 +54,12 @@ https://wordpress.org/documentation/article/twenty-twenty-five-changelog/#Versio
 == Copyright ==
 
 Twenty Twenty-Five WordPress Theme, (C) 2024-2026 WordPress.org and contributors.
+=======
+
+== Copyright ==
+
+Twenty Twenty-Five WordPress Theme, (C) 2024 WordPress.org and contributors.
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 Twenty Twenty-Five is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -113,7 +126,11 @@ Source: https://fonts.google.com/specimen/Literata
 
 Roboto Slab Font
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+<<<<<<< HEAD
 Reference: https://github.com/googlefonts/robotoslab
+=======
+Reference: hhttps://github.com/googlefonts/robotoslab
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 Source: https://fonts.google.com/specimen/Roboto+Slab
 
 Beiruti Font

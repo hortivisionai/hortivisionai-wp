@@ -1,10 +1,18 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Vertical site header
  * Slug: twentytwentyfive/vertical-header
  * Categories: header
  * Block Types: core/template-part/vertical-header
  * Description: Vertical site header with site title and navigation.
+=======
+ * Title: Vertical header
+ * Slug: twentytwentyfive/vertical-header
+ * Categories: header
+ * Block Types: core/template-part/vertical-header
+ * Description: Vertical Header with site title and navigation
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Viewport width: 300
  *
  * @package WordPress

@@ -5,7 +5,10 @@
  * Categories: gallery, featured, portfolio
  * Keywords: project, images, media, masonry, columns
  * Viewport width: 1400
+<<<<<<< HEAD
  * Description: A gallery section with 4 columns and offset images.
+=======
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  */
 ?>
 

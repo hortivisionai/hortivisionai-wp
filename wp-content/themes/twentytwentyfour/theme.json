@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+=======
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	"version": 2,
 	"patterns": [
 		"three-columns-of-services",
@@ -247,7 +251,11 @@
 				{
 					"fontFamily": "Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
 					"name": "System Serif",
+<<<<<<< HEAD
 					"slug": "system-serif"
+=======
+					"slug": "system-Serif"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 				}
 			],
 			"fontSizes": [
@@ -795,7 +803,13 @@
 					},
 					"outline": {
 						"color": "var(--wp--preset--color--contrast)",
+<<<<<<< HEAD
 						"offset": "2px"
+=======
+						"offset": "2px",
+						"style": "dotted",
+						"width": "1px"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					},
 					"border": {
 						"color": "var(--wp--preset--color--contrast-2)"
@@ -906,8 +920,12 @@
 			"fontStyle": "normal",
 			"fontWeight": "400",
 			"lineHeight": "1.55"
+<<<<<<< HEAD
 		},
 		"css": ":where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}"
+=======
+		}
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	},
 	"templateParts": [
 		{
@@ -940,12 +958,20 @@
 		{
 			"name": "page-with-sidebar",
 			"postTypes": ["page"],
+<<<<<<< HEAD
 			"title": "Page with Sidebar"
+=======
+			"title": "Page With Sidebar"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		},
 		{
 			"name": "page-wide",
 			"postTypes": ["page"],
+<<<<<<< HEAD
 			"title": "Page with Wide Image"
+=======
+			"title": "Page with wide Image"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 		},
 		{
 			"name": "single-with-sidebar",

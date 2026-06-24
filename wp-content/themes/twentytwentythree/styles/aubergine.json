@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+=======
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 	"version": 2,
 	"title": "Aubergine",
 	"settings": {
@@ -11,17 +15,29 @@
 					"slug": "secondary-base"
 				},
 				{
+<<<<<<< HEAD
 					"gradient": "linear-gradient(180deg, var(--wp--preset--color--base) 0 clamp(10vh, 24rem, 14vh), var(--wp--preset--color--secondary) 0% 30%, var(--wp--preset--color--base) 100%)",
+=======
+					"gradient": "linear-gradient(180deg, var(--wp--preset--color--base) 0 min(24rem, 10%), var(--wp--preset--color--secondary) 0% 30%, var(--wp--preset--color--base) 100%)",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					"name": "Base to Secondary to Base",
 					"slug": "base-secondary-base"
 				},
 				{
+<<<<<<< HEAD
 					"gradient": "linear-gradient(90deg, var(--wp--preset--color--tertiary) 5.74%, var(--wp--preset--color--primary) 100%)",
+=======
+					"gradient": "linear-gradient(90deg, var(--wp--preset--color--tertiary) 5.74%, var(--wp--preset--color--primary) 100%);",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					"name": "Tertiary to Primary",
 					"slug": "tertiary-primary"
 				},
 				{
+<<<<<<< HEAD
 					"gradient": "linear-gradient(90deg, var(--wp--preset--color--primary) 5.74%, var(--wp--preset--color--tertiary) 100%)",
+=======
+					"gradient": "linear-gradient(90deg, var(--wp--preset--color--primary) 5.74%, var(--wp--preset--color--tertiary) 100%);",
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					"name": "Primary to Tertiary",
 					"slug": "primary-tertiary"
 				}
@@ -86,8 +102,13 @@
 					"size": "10rem",
 					"slug": "xx-large",
 					"fluid": {
+<<<<<<< HEAD
 						"min": "10rem",
 						"max": "16.3rem"
+=======
+						"min": "4rem",
+						"max": "20rem"
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
 					}
 				}
 			]

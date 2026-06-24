@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Text blog search results
+=======
+ * Title: Text-only blog, search
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Slug: twentytwentyfive/template-search-text-blog
  * Template Types: search
  * Viewport width: 1400

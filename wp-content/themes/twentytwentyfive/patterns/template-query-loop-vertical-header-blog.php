@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Title: Right-aligned query loop
+=======
+ * Title: Right-aligned posts
+>>>>>>> 5a18ec73027fbaf1a0c22718fce45ac95a328f94
  * Slug: twentytwentyfive/template-query-loop-vertical-header-blog
  * Inserter: no
  *
