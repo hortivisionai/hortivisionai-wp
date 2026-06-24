@@ -2,16 +2,19 @@
 wp-config.php
 
 # User uploaded files — too large for git
+
 wp-content/uploads/
 
 # Cache and logs
 wp-content/cache/
+
 wp-content/upgrade/
 *.log
 
 # Keep custom plugin and theme, ignore everything else in plugins/themes
 wp-content/plugins/*
 !wp-content/plugins/farmer-dashboard/
+
 wp-content/themes/*
 !wp-content/themes/kadence/
 
