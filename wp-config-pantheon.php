@@ -72,6 +72,9 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 /** Define appropriate location for default tmp directory on Pantheon */
 define('WP_TEMP_DIR', sys_get_temp_dir());
 
+define('WP_HOME', 'https://dev-horti-vision-ai.pantheonsite.io');
+define('WP_SITEURL', 'https://dev-horti-vision-ai.pantheonsite.io');
+
 // FS writes aren't permitted in test or live, so we should let WordPress know to disable relevant UI
 if (in_array($_ENV['PANTHEON_ENVIRONMENT'], array( 'test', 'live' )) && ! defined('DISALLOW_FILE_MODS')) {
     define('DISALLOW_FILE_MODS', true);
