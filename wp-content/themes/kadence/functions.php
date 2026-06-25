@@ -72,6 +72,9 @@ add_action('wp_logout', function() {
 });
 
 // Redirect to Account page after login
-add_filter('um_login_redirect_url', function($url, $user_id) {
-    return get_permalink(um_get_core_page('account'));
-}, 10, 2);
+add_filter('login_redirect', function($redirect_to, $request, $user) {
+    if (isset($user->roles) && is_array($user->roles)) {
+        return home_url('/account/');
+    }
+    return $redirect_to;
+}, 10, 3);
