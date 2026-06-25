@@ -70,3 +70,8 @@ add_action('wp_logout', function() {
     wp_redirect(home_url('/'));
     exit;
 });
+
+// Redirect to Account page after login
+add_filter('um_login_redirect_url', function($url, $user_id) {
+    return get_permalink(um_get_core_page('account'));
+}, 10, 2);
