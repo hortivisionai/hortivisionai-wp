@@ -68,4 +68,5 @@ requirements.txt
 models/
 
 # DB credentials
-wp-config-local.php
+wp-config-local.phpwp-content/uploads/
+pantheon.upstream.yml
