@@ -2,7 +2,7 @@
 /**
  * Plugin Name: HortiVision Farmer Dashboard
  * Description: Plant image upload and counting for HortiVision AI
- * Version: 5.0
+ * Version: 6.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -12,7 +12,7 @@ if (!defined('HV_RENDER_BASE')) {
     define('HV_RENDER_BASE', 'https://hortivision-ai-inference.onrender.com');
 }
 
-// ── Create the hv_jobs table on activation ───────────────────
+// ── Create / update the hv_jobs table on activation ──────────
 register_activation_hook(__FILE__, function () {
     global $wpdb;
     $table   = $wpdb->prefix . 'hv_jobs';
@@ -20,19 +20,34 @@ register_activation_hook(__FILE__, function () {
     $sql = "CREATE TABLE IF NOT EXISTS $table (
         id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
         user_id BIGINT(20) UNSIGNED NOT NULL,
+        batch_id VARCHAR(64) DEFAULT NULL,
         s3_key TEXT NOT NULL,
         filename VARCHAR(255) NOT NULL,
         count INT DEFAULT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id),
-        KEY user_id (user_id)
+        KEY user_id (user_id),
+        KEY batch_id (batch_id)
     ) $charset;";
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
 });
 
+// ── Ensure batch_id column exists (for sites that had v5 table) ──
+add_action('plugins_loaded', function () {
+    global $wpdb;
+    $table = $wpdb->prefix . 'hv_jobs';
+    $col = $wpdb->get_results($wpdb->prepare(
+        "SHOW COLUMNS FROM $table LIKE %s", 'batch_id'
+    ));
+    if (empty($col)) {
+        // add the column if upgrading from an older version
+        $wpdb->query("ALTER TABLE $table ADD COLUMN batch_id VARCHAR(64) DEFAULT NULL AFTER user_id");
+        $wpdb->query("ALTER TABLE $table ADD KEY batch_id (batch_id)");
+    }
+});
+
 // ── AJAX: save an upload result to the database ──────────────
-// Called by the browser after Render returns a count.
 add_action('wp_ajax_hv_save_result', function () {
     if (!is_user_logged_in()) {
         wp_send_json_error('Not logged in.');
@@ -42,6 +57,7 @@ add_action('wp_ajax_hv_save_result', function () {
     $s3_key   = isset($_POST['s3_key'])   ? sanitize_text_field($_POST['s3_key'])   : '';
     $filename = isset($_POST['filename']) ? sanitize_text_field($_POST['filename']) : '';
     $count    = isset($_POST['count'])    ? intval($_POST['count'])                 : null;
+    $batch_id = isset($_POST['batch_id']) ? sanitize_text_field($_POST['batch_id']) : '';
 
     if ($s3_key === '' || $filename === '') {
         wp_send_json_error('Missing data.');
@@ -51,19 +67,41 @@ add_action('wp_ajax_hv_save_result', function () {
     $ok = $wpdb->insert(
         $wpdb->prefix . 'hv_jobs',
         array(
-            'user_id'    => get_current_user_id(),   // server-side, trusted
+            'user_id'    => get_current_user_id(),
+            'batch_id'   => $batch_id,
             's3_key'     => $s3_key,
             'filename'   => $filename,
             'count'      => $count,
             'created_at' => current_time('mysql'),
         ),
-        array('%d', '%s', '%s', '%d', '%s')
+        array('%d', '%s', '%s', '%s', '%d', '%s')
     );
 
     if ($ok === false) {
         wp_send_json_error('Database insert failed.');
     }
     wp_send_json_success(array('id' => $wpdb->insert_id));
+});
+
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_script(
+        'hv-notification',
+        plugin_dir_url(__FILE__) . 'hv-notification.js',
+        array(),
+        '1.3',
+        true
+    );
+});
+
+add_action('template_redirect', function () {
+    if (is_page('get-started')) {   // a page you create with slug "get-started"
+        if (is_user_logged_in()) {
+            wp_redirect(home_url('/farmer-dashboard/'));
+        } else {
+            wp_redirect(home_url('/register/'));
+        }
+        exit;
+    }
 });
 
 // ── Shortcode: [hv_upload] ───────────────────────────────────
@@ -157,6 +195,11 @@ add_shortcode('hv_upload', function () {
         var imgCountEl = document.getElementById('hv-imgcount');
         var breakdownEl= document.getElementById('hv-breakdown');
 
+        // Generate a unique batch id for one upload session.
+        function makeBatchId(){
+            return 'b_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+        }
+
         fileInput.addEventListener('change', function(){
             runBtn.disabled = !fileInput.files.length;
             resultEl.hidden = true;
@@ -169,7 +212,6 @@ add_shortcode('hv_upload', function () {
             statusEl.className = 'hv-status' + (isErr ? ' err' : '');
         }
 
-        // Upload one file to S3 via presigned URL (per-user key), return {key, name}
         async function uploadOne(file){
             var presignRes = await fetch(RENDER_BASE + '/presign', {
                 method: 'POST',
@@ -177,7 +219,7 @@ add_shortcode('hv_upload', function () {
                 body: JSON.stringify({
                     filename: file.name,
                     filetype: file.type || 'image/jpeg',
-                    user_id: USER_ID            // <-- NEW: per-user namespacing
+                    user_id: USER_ID
                 })
             });
             if (!presignRes.ok) throw new Error('Could not prepare upload for ' + file.name);
@@ -193,18 +235,17 @@ add_shortcode('hv_upload', function () {
             return { key: presign.key, name: file.name };
         }
 
-        // Save one result row to WordPress (which attaches the trusted user id)
-        async function saveResult(s3_key, filename, count){
+        async function saveResult(s3_key, filename, count, batchId){
             var body = new URLSearchParams();
             body.append('action', 'hv_save_result');
             body.append('nonce', SAVE_NONCE);
             body.append('s3_key', s3_key);
             body.append('filename', filename);
             body.append('count', count);
+            body.append('batch_id', batchId);
             try {
                 await fetch(AJAX_URL, { method: 'POST', body: body });
             } catch (e) {
-                // non-fatal: the count still shows even if saving fails
                 console.error('Save failed for', filename, e);
             }
         }
@@ -213,19 +254,18 @@ add_shortcode('hv_upload', function () {
             var files = Array.prototype.slice.call(fileInput.files);
             if (!files.length) return;
 
+            var batchId = makeBatchId();   // one id for this whole upload
             runBtn.disabled = true;
             resultEl.hidden = true;
             breakdownEl.innerHTML = '';
 
             try {
-                // 1. Upload each file to S3 sequentially
                 var uploaded = [];
                 for (var i = 0; i < files.length; i++) {
                     setStatus('Uploading ' + (i+1) + ' of ' + files.length + '…');
                     uploaded.push(await uploadOne(files[i]));
                 }
 
-                // 2. Count all via Render
                 setStatus('Counting plants across ' + files.length + ' image(s)… this can take a moment.');
                 var keys = uploaded.map(function(u){ return u.key; });
                 var countRes = await fetch(RENDER_BASE + '/count-s3', {
@@ -239,7 +279,6 @@ add_shortcode('hv_upload', function () {
                 var countByKey = {};
                 (data.per_image || []).forEach(function(row){ countByKey[row.key] = row.count; });
 
-                // 3. Display + save each result
                 for (var j = 0; j < uploaded.length; j++) {
                     var u = uploaded[j];
                     var c = (countByKey[u.key] != null) ? countByKey[u.key] : 0;
@@ -252,7 +291,7 @@ add_shortcode('hv_upload', function () {
                     li.appendChild(name); li.appendChild(cnt);
                     breakdownEl.appendChild(li);
 
-                    await saveResult(u.key, u.name, c);   // <-- NEW: persist row
+                    await saveResult(u.key, u.name, c, batchId);
                 }
 
                 totalEl.textContent = (data.total_count != null ? data.total_count : 0);
@@ -271,7 +310,7 @@ add_shortcode('hv_upload', function () {
     return ob_get_clean();
 });
 
-// ── Shortcode: [hv_gallery] — user's upload history grid ─────
+// ── Shortcode: [hv_gallery] — upload history grouped by batch ─
 add_shortcode('hv_gallery', function () {
 
     if (!is_user_logged_in()) {
@@ -282,13 +321,19 @@ add_shortcode('hv_gallery', function () {
     $user_id = get_current_user_id();
     $table   = $wpdb->prefix . 'hv_jobs';
 
-    // one query: this user's uploads, newest first
+    // Group by batch: one row per upload session.
+    // For older rows with no batch_id, fall back to grouping by the minute.
     $rows = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT s3_key, filename, count, created_at
+            "SELECT
+                COALESCE(NULLIF(batch_id,''), DATE_FORMAT(created_at, '%%Y%%m%%d%%H%%i')) AS grp,
+                MIN(created_at) AS batch_time,
+                COUNT(*)        AS image_count,
+                SUM(count)      AS total_count
              FROM $table
              WHERE user_id = %d
-             ORDER BY created_at DESC",
+             GROUP BY grp
+             ORDER BY batch_time DESC",
             $user_id
         )
     );
@@ -297,84 +342,52 @@ add_shortcode('hv_gallery', function () {
         return '<div class="hv-gallery-empty">No uploads yet. Your counted images will appear here.</div>';
     }
 
-    // collect keys to fetch view URLs from Render
-    $keys = array();
-    foreach ($rows as $r) { $keys[] = $r->s3_key; }
-
-    // ask Render for presigned GET urls
-    $view_urls = array();
-    $resp = wp_remote_post(HV_RENDER_BASE . '/view-urls', array(
-        'headers' => array('Content-Type' => 'application/json'),
-        'body'    => wp_json_encode(array('keys' => $keys)),
-        'timeout' => 20,
-    ));
-    if (!is_wp_error($resp)) {
-        $body = json_decode(wp_remote_retrieve_body($resp), true);
-        if (isset($body['urls']) && is_array($body['urls'])) {
-            $view_urls = $body['urls'];
-        }
-    }
-
     ob_start();
     ?>
     <div class="hv-gallery">
         <h2>My Uploads</h2>
-        <div class="hv-grid">
-            <?php foreach ($rows as $r):
-                $img = isset($view_urls[$r->s3_key]) ? $view_urls[$r->s3_key] : '';
-                $date = date('M j, Y', strtotime($r->created_at));
-            ?>
-                <div class="hv-card">
-                    <div class="hv-thumb">
-                        <?php if ($img): ?>
-                            <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($r->filename); ?>" loading="lazy" />
-                        <?php else: ?>
-                            <div class="hv-thumb-missing">image unavailable</div>
-                        <?php endif; ?>
-                        <span class="hv-count-badge"><?php echo intval($r->count); ?></span>
-                    </div>
-                    <div class="hv-card-meta">
-                        <span class="hv-card-name" title="<?php echo esc_attr($r->filename); ?>"><?php echo esc_html($r->filename); ?></span>
-                        <span class="hv-card-date"><?php echo esc_html($date); ?></span>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+        <table class="hv-table">
+            <thead>
+                <tr>
+                    <th>Date &amp; Time</th>
+                    <th>Images</th>
+                    <th>Total Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($rows as $r):
+                    $when = date('M j, Y g:i A', strtotime($r->batch_time));
+                ?>
+                    <tr>
+                        <td><?php echo esc_html($when); ?></td>
+                        <td><?php echo intval($r->image_count); ?></td>
+                        <td class="hv-total-cell"><?php echo intval($r->total_count); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
     <style>
         .hv-gallery { margin-top: 2.5rem; }
         .hv-gallery h2 { font-size: 1.25rem; margin: 0 0 1rem; }
         .hv-gallery-empty { margin-top:2rem; color:#8a968f; font-size:.9rem; }
-        .hv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1rem;
+        .hv-table {
+            width:100%; border-collapse:collapse; background:#fff;
+            border:1px solid #e2e8f0; border-radius:10px; overflow:hidden;
         }
-        .hv-card {
-            border: 1px solid #e2e8f0; border-radius: 10px;
-            overflow: hidden; background: #fff;
+        .hv-table thead th {
+            text-align:left; font-size:.8rem; letter-spacing:.03em;
+            text-transform:uppercase; color:#2D6A4F; background:#f3f9f5;
+            padding:.8rem 1rem; border-bottom:1px solid #d8e6dd;
         }
-        .hv-thumb {
-            position: relative; aspect-ratio: 4/3; background: #f2f5f3;
-            display:flex; align-items:center; justify-content:center;
+        .hv-table tbody td {
+            padding:.85rem 1rem; font-size:.92rem; color:#334;
+            border-top:1px solid #eef3f0;
         }
-        .hv-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-        .hv-thumb-missing { font-size:.75rem; color:#aab4ae; }
-        .hv-count-badge {
-            position:absolute; top:8px; right:8px;
-            background:#1B4332; color:#fff; font-weight:700; font-size:.85rem;
-            padding:.2rem .55rem; border-radius:999px;
-        }
-        .hv-card-meta {
-            display:flex; justify-content:space-between; align-items:center;
-            padding:.55rem .7rem; gap:.5rem;
-        }
-        .hv-card-name {
-            font-size:.8rem; color:#334; overflow:hidden;
-            text-overflow:ellipsis; white-space:nowrap;
-        }
-        .hv-card-date { font-size:.72rem; color:#8a968f; white-space:nowrap; }
+        .hv-table tbody tr:first-child td { border-top:0; }
+        .hv-table .hv-total-cell { font-weight:700; color:#1B4332; }
+        .hv-table tbody tr:hover { background:#f8fbf9; }
     </style>
     <?php
     return ob_get_clean();
