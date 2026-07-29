@@ -76,18 +76,12 @@ $table_prefix = 'wp_';
  * "true" in dev, but false in test and live.
  */
 if ( ! defined( 'WP_DEBUG' ) ) {
-	define('WP_DEBUG', true);
-}
-if (defined('PANTHEON_ENVIRONMENT') && PANTHEON_ENVIRONMENT === 'dev') {
-    define('WP_DEBUG_LOG', true);
-    define('WP_DEBUG_DISPLAY', false);
-    @ini_set('log_errors', 'On');
+	define( 'WP_DEBUG', true );
+	define( 'WP_DEBUG_LOG', true );
+	define( 'WP_DEBUG_DISPLAY', false );
 }
 
 /* That's all, stop editing! Happy Pressing. */
-
-
-
 
 /** Absolute path to the WordPress directory. */
 if ( !defined('ABSPATH') )

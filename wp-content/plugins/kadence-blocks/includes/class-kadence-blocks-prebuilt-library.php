@@ -431,6 +431,8 @@ class Kadence_Blocks_Prebuilt_Library {
 	/**
 	 * Get remote file contents.
 	 *
+	 * @since 3.7.8.1 Only attach credentials for known library locations.
+	 *
 	 * @access public
 	 * @return string Returns the remote URL contents.
 	 */
@@ -440,7 +442,8 @@ class Kadence_Blocks_Prebuilt_Library {
 			'key'  => $this->key,
 			'site' => $site_url,
 		];
-		if ( 'templates' === $this->package || 'section' === $this->package || 'pages' === $this->package || $this->is_template ) {
+		// License credentials are only ever sent to the Kadence library hosts.
+		if ( $this->is_kadence_api_url( $this->url ) && ( 'templates' === $this->package || 'section' === $this->package || 'pages' === $this->package || $this->is_template ) ) {
 			if ( ! empty( $this->api_email ) ) {
 				$args['api_email'] = $this->api_email;
 			}
@@ -540,6 +543,8 @@ class Kadence_Blocks_Prebuilt_Library {
 	 * 2). query api for data if needed
 	 * 3). import content
 	 * 4). execute 'after content import' actions (before widget import WP action, widget import, customizer import, after import WP action)
+	 *
+	 * @since 3.7.8.1 Restrict requests to known library locations.
 	 */
 	public function prebuilt_connection_info_ajax_callback() {
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
@@ -548,8 +553,11 @@ class Kadence_Blocks_Prebuilt_Library {
 		$this->api_key                  = $this->get_stored_license_key();
 		$this->api_email                = $this->get_stored_license_email();
 		$this->package                  = empty( $_POST['package'] ) ? 'section' : sanitize_text_field( $_POST['package'] );
-		$this->url                      = empty( $_POST['url'] ) ? '' : rtrim( sanitize_text_field( $_POST['url'] ), '/' ) . '/wp-json/kadence-cloud/v1/info/';
+		$this->url                      = $this->resolve_connection_url( empty( $_POST['url'] ) ? '' : sanitize_text_field( $_POST['url'] ), '/wp-json/kadence-cloud/v1/info/' );
 		$this->key                      = empty( $_POST['key'] ) ? 'section' : sanitize_text_field( $_POST['key'] );
+		if ( empty( $this->url ) ) {
+			wp_send_json( esc_html__( 'No Connection data', 'kadence-blocks' ) );
+		}
 		// Do you have the data?
 		$get_data = $this->get_connection_data();
 		if ( ! $get_data ) {
@@ -618,6 +626,8 @@ class Kadence_Blocks_Prebuilt_Library {
 	 * 2). query api for data if needed
 	 * 3). import content
 	 * 4). execute 'after content import' actions (before widget import WP action, widget import, customizer import, after import WP action)
+	 *
+	 * @since 3.7.8.1 Restrict requests to known library locations.
 	 */
 	public function prebuilt_data_ajax_callback() {
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
@@ -628,9 +638,12 @@ class Kadence_Blocks_Prebuilt_Library {
 		$this->product_id               = empty( $_POST['product_id'] ) ? '' : sanitize_text_field( $_POST['product_id'] );
 		$this->product_slug             = empty( $_POST['product_slug'] ) ? '' : sanitize_text_field( $_POST['product_slug'] );
 		$this->package                  = empty( $_POST['package'] ) ? 'section' : sanitize_text_field( $_POST['package'] );
-		$this->url                      = empty( $_POST['url'] ) ? $this->remote_url : rtrim( sanitize_text_field( $_POST['url'] ), '/' ) . '/wp-json/kadence-cloud/v1/get/';
+		$this->url                      = $this->resolve_library_url( empty( $_POST['url'] ) ? '' : sanitize_text_field( $_POST['url'] ), '/wp-json/kadence-cloud/v1/get/', $this->remote_url );
 		$this->key                      = isset( $_POST['key'] ) && ! empty( $_POST['key'] ) ? sanitize_text_field( $_POST['key'] ) : 'section';
 		$this->is_template              = isset( $_POST['is_template'] ) && ! empty( $_POST['is_template'] ) ? true : false;
+		if ( empty( $this->url ) ) {
+			wp_send_json( esc_html__( 'No library data', 'kadence-blocks' ) );
+		}
 		// Do you have the data?
 		$get_data = $this->get_template_data();
 		if ( ! $get_data ) {
@@ -813,10 +826,17 @@ class Kadence_Blocks_Prebuilt_Library {
 	}
 	/**
 	 * Ajax function for processing the import data.
+	 *
+	 * @since 3.7.8 Require the upload_files capability.
 	 */
 	public function process_pattern_ajax_callback() {
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
 		$this->verify_ajax_call();
+
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to upload files.', 'kadence-blocks' ) );
+		}
+
 		$data = empty( $_POST['import_content'] ) ? '' : stripslashes( $_POST['import_content'] );
 		$data = $this->process_pattern_content( $data );
 		if ( ! $data ) {
@@ -912,10 +932,18 @@ class Kadence_Blocks_Prebuilt_Library {
 	}
 	/**
 	 * Ajax function for processing the import data.
+	 *
+	 * @since 3.7.8 Require the upload_files capability.
+	 * @since 3.7.8.1 Restrict requests to known library locations.
 	 */
 	public function process_data_ajax_callback() {
 		// Verify if the AJAX call is valid (checks nonce and current_user_can).
 		$this->verify_ajax_call();
+
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to upload files.', 'kadence-blocks' ) );
+		}
+
 		$data           = empty( $_POST['import_content'] ) ? '' : stripslashes( $_POST['import_content'] );
 		$import_library = empty( $_POST['import_library'] ) ? 'standard' : sanitize_text_field( $_POST['import_library'] );
 		$import_type    = empty( $_POST['import_type'] ) ? 'pattern' : sanitize_text_field( $_POST['import_type'] );
@@ -923,8 +951,11 @@ class Kadence_Blocks_Prebuilt_Library {
 		$import_style   = empty( $_POST['import_style'] ) ? 'normal' : sanitize_text_field( $_POST['import_style'] );
 		$this->api_key  = $this->get_stored_license_key();
 		$this->package  = empty( $_POST['package'] ) ? 'section' : sanitize_text_field( $_POST['package'] );
-		$this->url      = empty( $_POST['url'] ) ? $this->remote_url : rtrim( sanitize_text_field( $_POST['url'] ), '/' ) . '/wp-json/kadence-cloud/v1/get/';
+		$this->url      = $this->resolve_library_url( empty( $_POST['url'] ) ? '' : sanitize_text_field( $_POST['url'] ), '/wp-json/kadence-cloud/v1/get/', $this->remote_url );
 		$this->key      = isset( $_POST['key'] ) && ! empty( $_POST['key'] ) ? sanitize_text_field( $_POST['key'] ) : 'section';
+		if ( empty( $this->url ) ) {
+			wp_send_json( esc_html__( 'No data', 'kadence-blocks' ) );
+		}
 		$data           = $this->process_content( $data, $import_library, $import_type, $import_id, $import_style );
 		if ( ! $data ) {
 			// Send JSON Error response to the AJAX call.
@@ -1040,9 +1071,14 @@ class Kadence_Blocks_Prebuilt_Library {
 	/**
 	 * Import an image.
 	 *
+	 * @since 3.7.8 Require the upload_files capability.
+	 *
 	 * @param array $image_data the image data to import.
 	 */
 	public function import_image( $image_data ) {
+		if ( ! current_user_can( 'upload_files' ) ) {
+			return $image_data;
+		}
 		$local_image = $this->check_for_local_image( $image_data );
 		if ( $local_image['status'] ) {
 			return $local_image['image'];
@@ -1233,6 +1269,8 @@ class Kadence_Blocks_Prebuilt_Library {
 	 * 2). query api for data if needed
 	 * 3). import content
 	 * 4). execute 'after content import' actions (before widget import WP action, widget import, customizer import, after import WP action)
+	 *
+	 * @since 3.7.8.1 Restrict requests to known library locations.
 	 */
 	public function prebuilt_data_reload_ajax_callback() {
 
@@ -1244,9 +1282,12 @@ class Kadence_Blocks_Prebuilt_Library {
 		$this->product_id               = empty( $_POST['product_id'] ) ? '' : sanitize_text_field( $_POST['product_id'] );
 		$this->product_slug             = empty( $_POST['product_slug'] ) ? '' : sanitize_text_field( $_POST['product_slug'] );
 		$this->package                  = empty( $_POST['package'] ) ? 'section' : sanitize_text_field( $_POST['package'] );
-		$this->url                      = empty( $_POST['url'] ) ? $this->remote_url : rtrim( sanitize_text_field( $_POST['url'] ), '/' ) . '/wp-json/kadence-cloud/v1/get/';
+		$this->url                      = $this->resolve_library_url( empty( $_POST['url'] ) ? '' : sanitize_text_field( $_POST['url'] ), '/wp-json/kadence-cloud/v1/get/', $this->remote_url );
 		$this->key                      = empty( $_POST['key'] ) ? 'section' : sanitize_text_field( $_POST['key'] );
 		$this->is_template              = isset( $_POST['is_template'] ) && ! empty( $_POST['is_template'] ) ? true : false;
+		if ( empty( $this->url ) ) {
+			wp_send_json( esc_html__( 'No library data', 'kadence-blocks' ) );
+		}
 
 		// $removed = $this->delete_block_library_folder();
 		// if ( ! $removed ) {
